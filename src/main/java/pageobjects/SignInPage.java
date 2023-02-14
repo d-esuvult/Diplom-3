@@ -1,6 +1,5 @@
-package pageObjects;
+package pageobjects;
 
-import additional.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -35,21 +34,21 @@ public class SignInPage {
         return driver.findElement(accountPage).isDisplayed();
     }
 
-    public void fillOutEmail() {
+    public void fillOutEmail(String email) {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(emailField));
-        driver.findElement(emailField).sendKeys(User.getEmail());
+        driver.findElement(emailField).sendKeys(email);
     }
 
-    public void fillOutPassword() {
+    public void fillOutPassword(String password) {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(passwordField));
-        driver.findElement(passwordField).sendKeys(User.getPassword());
+        driver.findElement(passwordField).sendKeys(password);
     }
 
-    public void fillSignInInfo() {
-        fillOutEmail();
-        fillOutPassword();
+    public void fillSignInInfo(String email, String password) {
+        fillOutEmail(email);
+        fillOutPassword(password);
     }
 
     public void clickSignInButton() {

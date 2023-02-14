@@ -1,6 +1,5 @@
-package pageObjects;
+package pageobjects;
 
-import additional.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -23,29 +22,29 @@ public class SignUpPage {
     private final By passwordInputError = By.xpath(".//p[text()='Некорректный пароль']");
     private final By signInButton = By.linkText("Войти");
 
-    public void fillOutName() {
+    public void fillOutName(String name) {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(nameField));
-        driver.findElement(nameField).sendKeys(User.getName());
+        driver.findElement(nameField).sendKeys(name);
     }
 
-    public void fillOutEmail() {
+    public void fillOutEmail(String email) {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(emailField));
-        driver.findElement(emailField).sendKeys(User.getEmail());
+        driver.findElement(emailField).sendKeys(email);
     }
 
-    public void fillOutPassword() {
+    public void fillOutPassword(String password) {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(passwordField));
-        driver.findElement(passwordField).sendKeys(User.getPassword() + Keys.TAB);
+        driver.findElement(passwordField).sendKeys(password + Keys.TAB);
 
     }
 
-    public void fillOutUserInfo() {
-        fillOutName();
-        fillOutEmail();
-        fillOutPassword();
+    public void fillOutUserInfo(String name, String email, String password) {
+        fillOutName(name);
+        fillOutEmail(email);
+        fillOutPassword(password);
     }
 
     public void clickSignUpButton() {

@@ -5,8 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pageObjects.FrontPage;
+import pageobjects.FrontPage;
 
+import static additional.selenium.URLs.BASE_URL;
 import static org.junit.Assert.assertTrue;
 
 public class ConstructorPageTests {
@@ -16,7 +17,7 @@ public class ConstructorPageTests {
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.get("https://stellarburgers.nomoreparties.site/");
+        driver.get(BASE_URL);
         frontPage = new FrontPage(driver);
     }
 

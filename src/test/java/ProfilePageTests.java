@@ -1,15 +1,20 @@
-import additional.User;
+import additional.api.JSONUser;
+import additional.api.UserBuilder;
+import additional.api.UserClient;
+import additional.selenium.User;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.restassured.response.Response;
 import jdk.jfr.Description;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pageObjects.FrontPage;
-import pageObjects.ProfilePage;
-import pageObjects.SignInPage;
+import pageobjects.FrontPage;
+import pageobjects.ProfilePage;
+import pageobjects.SignInPage;
 
+import static additional.selenium.URLs.LOGIN;
 import static org.junit.Assert.assertTrue;
 
 public class ProfilePageTests {
@@ -17,19 +22,29 @@ public class ProfilePageTests {
     SignInPage signInPage;
     FrontPage frontPage;
     ProfilePage profilePage;
+    UserClient userClient;
+    JSONUser jsonUser;
+    String token;
+    User user;
 
     @Before
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.get("https://stellarburgers.nomoreparties.site/login");
+        driver.get(LOGIN);
 
-        User.getDefaultUser();
         signInPage = new SignInPage(driver);
         frontPage = new FrontPage(driver);
         profilePage = new ProfilePage(driver);
 
-        signInPage.fillSignInInfo();
+        userClient = new UserClient();
+        jsonUser = UserBuilder.createRandomUser();
+        Response response = userClient.createNewUser(jsonUser);
+        token = userClient.getToken(response);
+
+        user = User.from(jsonUser);
+
+        signInPage.fillSignInInfo(user.getEmail(), user.getPassword());
         signInPage.clickSignInButton();
         frontPage.waitForFrontPageToLoad();
     }
@@ -76,6 +91,7 @@ public class ProfilePageTests {
 
     @After
     public void tearDown() {
+        userClient.deleteUser(token);
         driver.quit();
     }
 }
