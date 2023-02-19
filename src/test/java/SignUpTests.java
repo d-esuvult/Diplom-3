@@ -66,6 +66,9 @@ public class SignUpTests {
         signInPage.clickSignUpLink();
         signUpPage.fillOutUserInfo(user.getName(), user.getEmail(), user.getPassword());
 
+        Response response = userClient.logUser(JSONUser.from(user));
+        token = userClient.getToken(response);
+
         assertTrue(signUpPage.checkPasswordInputError());
     }
 
